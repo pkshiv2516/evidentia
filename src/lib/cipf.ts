@@ -31,7 +31,7 @@ Produce a structured analysis in JSON format with the following sections:
 ### IMPORTANT:
 - Use Google Search grounding to find evidence.
 - Do NOT invent facts.
-- Return ONLY valid JSON.
+- Return ONLY valid JSON, with absolutely NO markdown formatting, NO backticks, and NO conversational text before or after the JSON.
 `;
 
 export interface VariableMapping {

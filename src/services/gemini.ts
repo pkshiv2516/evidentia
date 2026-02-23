@@ -22,17 +22,12 @@ export async function analyzeProblem(problem: string): Promise<CIPFReport> {
   try {
     let cleanText = response.text.trim();
 
-    // Attempt to extract JSON if it's wrapped in a code block or embedded in other text
-    const jsonMatch = cleanText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-    if (jsonMatch && jsonMatch[1]) {
-      cleanText = jsonMatch[1].trim();
-    } else {
-      // If no code block, try to find the first '{' and last '}'
-      const firstBrace = cleanText.indexOf('{');
-      const lastBrace = cleanText.lastIndexOf('}');
-      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-        cleanText = cleanText.substring(firstBrace, lastBrace + 1);
-      }
+    // Fallback: forcefully extract everything from the first '{' to the last '}'
+    const startIndex = cleanText.indexOf('{');
+    const endIndex = cleanText.lastIndexOf('}');
+
+    if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+      cleanText = cleanText.substring(startIndex, endIndex + 1);
     }
 
     return JSON.parse(cleanText);

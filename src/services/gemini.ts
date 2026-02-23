@@ -6,12 +6,13 @@ const getAI = () => new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export async function analyzeProblem(problem: string): Promise<CIPFReport> {
   const ai = getAI();
   const response = await ai.models.generateContent({
-    model: "gemini-3.1-pro-preview",
+    model: "gemini-3-flash-preview",
     contents: `Analyze the following problem statement using the CIPF framework and historical evidence: "${problem}"`,
     config: {
       systemInstruction: CIPF_SYSTEM_INSTRUCTION,
       responseMimeType: "application/json",
       tools: [{ googleSearch: {} }],
+      maxOutputTokens: 800,
     },
   });
 

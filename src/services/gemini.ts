@@ -20,17 +20,22 @@ export async function analyzeProblem(problem: string): Promise<CIPFReport> {
   }
 
   try {
-    // Strip potential markdown backticks simply
     let cleanText = response.text.trim();
-    if (cleanText.startsWith("```json")) {
-      cleanText = cleanText.substring(7);
-    } else if (cleanText.startsWith("```")) {
-      cleanText = cleanText.substring(3);
+
+    // Attempt to extract JSON if it's wrapped in a code block or embedded in other text
+    const jsonMatch = cleanText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (jsonMatch && jsonMatch[1]) {
+      cleanText = jsonMatch[1].trim();
+    } else {
+      // If no code block, try to find the first '{' and last '}'
+      const firstBrace = cleanText.indexOf('{');
+      const lastBrace = cleanText.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+        cleanText = cleanText.substring(firstBrace, lastBrace + 1);
+      }
     }
-    if (cleanText.endsWith("```")) {
-      cleanText = cleanText.substring(0, cleanText.length - 3);
-    }
-    return JSON.parse(cleanText.trim());
+
+    return JSON.parse(cleanText);
   } catch (e) {
     console.error("Failed to parse JSON response", response.text);
     throw new Error("Invalid response format from AI");

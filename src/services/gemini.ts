@@ -7,11 +7,11 @@ export async function analyzeProblem(problem: string): Promise<CIPFReport> {
   const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash-lite",
-    contents: `Analyze the following problem statement using the CIPF framework and historical evidence: "${problem}"`,
+    contents: `Analyze the following problem statement using the CIPF framework and historical evidence: "${problem}". ALWAYS return your response as raw, valid JSON.`,
     config: {
       systemInstruction: CIPF_SYSTEM_INSTRUCTION,
       tools: [{ googleSearch: {} }],
-      maxOutputTokens: 800,
+      maxOutputTokens: 4000,
     },
   });
 

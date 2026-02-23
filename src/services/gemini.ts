@@ -6,8 +6,8 @@ const getAI = () => new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export async function analyzeProblem(problem: string): Promise<CIPFReport> {
   const ai = getAI();
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: `Analyze the following problem statement using the CIPF framework and historical evidence: "${problem}". ALWAYS return your response as raw, valid JSON with no markdown formatting.`,
+    model: "gemini-3-flash-preview",
+    contents: `Analyze the following problem statement using the CIPF framework and historical evidence: "${problem}"`,
     config: {
       systemInstruction: CIPF_SYSTEM_INSTRUCTION,
       tools: [{ googleSearch: {} }],

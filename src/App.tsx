@@ -5,14 +5,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Search, 
-  FileText, 
-  History, 
-  Link as LinkIcon, 
-  ChevronRight, 
-  Download, 
-  Loader2, 
+import {
+  Search,
+  FileText,
+  History,
+  Link as LinkIcon,
+  ChevronRight,
+  Download,
+  Loader2,
   Sparkles,
   AlertCircle,
   Info,
@@ -32,7 +32,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [report, setReport] = useState<CIPFReport | null>(null);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Simulation State
   const [simValues, setSimValues] = useState<Record<string, number>>({});
   const [psi, setPsi] = useState(0);
@@ -118,7 +118,7 @@ export default function App() {
         {/* Hero & Input */}
         <section className="text-center space-y-12">
           <div className="space-y-4">
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-6xl md:text-7xl font-serif font-light tracking-tighter leading-none"
@@ -132,14 +132,14 @@ export default function App() {
           </div>
 
           <form onSubmit={handleAnalyze} className="max-w-3xl mx-auto relative group">
-            <input 
+            <input
               type="text"
               value={problem}
               onChange={(e) => setProblem(e.target.value)}
               placeholder="e.g. 'The 2021 Suez Canal blockage coordination failure'..."
               className="w-full bg-white border border-black/10 rounded-2xl px-8 py-6 pr-20 text-xl focus:outline-none focus:ring-2 focus:ring-[#5A5A40]/20 transition-all shadow-sm group-hover:shadow-md"
             />
-            <button 
+            <button
               type="submit"
               disabled={loading || !problem.trim()}
               className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 bg-[#1A1A1A] text-white rounded-xl flex items-center justify-center hover:bg-[#5A5A40] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -149,7 +149,7 @@ export default function App() {
           </form>
 
           {error && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="max-w-xl mx-auto p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 text-red-600 text-sm"
@@ -162,7 +162,7 @@ export default function App() {
 
         <AnimatePresence mode="wait">
           {report && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="space-y-24"
@@ -173,7 +173,7 @@ export default function App() {
                   <h2 className="text-4xl font-serif italic">Analytical Report</h2>
                   <p className="text-sm opacity-40 uppercase tracking-widest">Synthesized from {report.historical_timeline.length} historical sources</p>
                 </div>
-                <button 
+                <button
                   onClick={downloadReport}
                   className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest bg-white border border-black/10 px-6 py-3 rounded-full hover:bg-black hover:text-white transition-all"
                 >
@@ -217,7 +217,7 @@ export default function App() {
                             </div>
                             <span className="text-sm font-mono font-bold">{(simValues[key] || 0).toFixed(2)}</span>
                           </div>
-                          <input 
+                          <input
                             type="range"
                             min="0"
                             max="1"
@@ -250,11 +250,11 @@ export default function App() {
                       <div className="space-y-4 pt-4 border-t border-black/5">
                         <h4 className="text-[10px] font-bold uppercase tracking-widest opacity-40">Simulation Insight</h4>
                         <p className="text-sm leading-relaxed opacity-70 italic">
-                          {psi > 0.7 
+                          {psi > 0.7
                             ? "Current parameters suggest high resilience. Focus on maintaining institutional transparency (IFA) to prevent algorithmic lock-in."
-                            : psi > 0.4 
-                            ? "Coordination is fragile. A slight decrease in trust (SRC) or clarity (DRC) could trigger a cascade failure signature."
-                            : "Systemic breakdown is likely. Urgent intervention in Layer 2 (Institutional Design) is required to provide scaffolding for individual actors."}
+                            : psi > 0.4
+                              ? "Coordination is fragile. A slight decrease in trust (SRC) or clarity (DRC) could trigger a cascade failure signature."
+                              : "Systemic breakdown is likely. Urgent intervention in Layer 2 (Institutional Design) is required to provide scaffolding for individual actors."}
                         </p>
                       </div>
 
@@ -301,10 +301,10 @@ export default function App() {
                     <History className="w-8 h-8 opacity-20" />
                     <h3 className="text-2xl font-serif italic">Evidence Synthesis</h3>
                     <p className="text-lg font-light opacity-60 leading-relaxed">
-                      Evidentia has converted these historical events into quantitative variables by analyzing the 
-                      <span className="text-white opacity-100 font-medium"> cognitive load (CCI)</span>, 
-                      <span className="text-white opacity-100 font-medium"> institutional friction (DRC)</span>, and 
-                      <span className="text-white opacity-100 font-medium"> social capital (SRC)</span> 
+                      Evidentia has converted these historical events into quantitative variables by analyzing the
+                      <span className="text-white opacity-100 font-medium"> cognitive load (CCI)</span>,
+                      <span className="text-white opacity-100 font-medium"> institutional friction (DRC)</span>, and
+                      <span className="text-white opacity-100 font-medium"> social capital (SRC)</span>
                       manifested in each recorded interaction.
                     </p>
                     <div className="pt-6 border-t border-white/10">
@@ -332,7 +332,7 @@ export default function App() {
               <span className="font-serif italic text-lg tracking-tight">Evidentia</span>
             </div>
             <p className="text-sm opacity-40 max-w-sm">
-              Powered by the Comprehensive Integrated Predictive Framework (CIPF). 
+              Powered by the Comprehensive Integrated Predictive Framework (CIPF).
               A domain-general coordination prediction science validated across the full spectrum of human collective action problems.
             </p>
           </div>

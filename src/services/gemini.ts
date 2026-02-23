@@ -6,11 +6,10 @@ const getAI = () => new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export async function analyzeProblem(problem: string): Promise<CIPFReport> {
   const ai = getAI();
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
-    contents: `Analyze the following problem statement using the CIPF framework and historical evidence: "${problem}"`,
+    model: "gemini-2.5-flash",
+    contents: `Analyze the following problem statement using the CIPF framework and historical evidence: "${problem}". ALWAYS return your response as raw, valid JSON with no markdown formatting.`,
     config: {
       systemInstruction: CIPF_SYSTEM_INSTRUCTION,
-      responseMimeType: "application/json",
       tools: [{ googleSearch: {} }],
       maxOutputTokens: 800,
     },
@@ -21,7 +20,17 @@ export async function analyzeProblem(problem: string): Promise<CIPFReport> {
   }
 
   try {
-    return JSON.parse(response.text.trim());
+    // Strip potential markdown backticks simply
+    let cleanText = response.text.trim();
+    if (cleanText.startsWith("```json")) {
+      cleanText = cleanText.substring(7);
+    } else if (cleanText.startsWith("```")) {
+      cleanText = cleanText.substring(3);
+    }
+    if (cleanText.endsWith("```")) {
+      cleanText = cleanText.substring(0, cleanText.length - 3);
+    }
+    return JSON.parse(cleanText.trim());
   } catch (e) {
     console.error("Failed to parse JSON response", response.text);
     throw new Error("Invalid response format from AI");
@@ -31,7 +40,7 @@ export async function analyzeProblem(problem: string): Promise<CIPFReport> {
 export async function editImage(base64Image: string, prompt: string, mimeType: string): Promise<string> {
   const ai = getAI();
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-image",
+    model: "gemini-1.5-flash",
     contents: {
       parts: [
         {
